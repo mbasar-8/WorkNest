@@ -8,3 +8,5 @@ Route::get('/health', function () {
         'message' => 'WorkNest API is running.',
     ]);
 });
+
+require __DIR__.'/api/auth.php';

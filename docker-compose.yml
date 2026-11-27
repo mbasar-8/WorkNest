@@ -6,6 +6,8 @@ services:
 
     container_name: worknest_app
 
+    user: "${UID}:${GID}"
+
     working_dir: /app
 
     environment:
