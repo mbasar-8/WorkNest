@@ -9,4 +9,15 @@ RUN install-php-extensions \
     bcmath \
     pcntl
 
+ARG USER=app
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g ${GID} ${USER} \
+    && useradd -u ${UID} -g ${GID} -m -s /bin/bash ${USER} \
+    && setcap -r /usr/local/bin/frankenphp \
+    && chown -R ${USER}:${USER} /data/caddy /config/caddy
+
 WORKDIR /app
+
+USER ${USER}
