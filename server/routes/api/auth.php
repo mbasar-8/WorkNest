@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -11,10 +10,12 @@ Route::prefix('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth:sanctum');
+    Route::post('/register', [AuthController::class, 'register']);
+
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->middleware('auth:sanctum');
 
     /*
     |--------------------------------------------------------------------------
@@ -22,11 +23,17 @@ Route::post('/logout', [AuthController::class, 'logout'])
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
-        ->middleware('signed')
-        ->name('verification.verify');
+    Route::post('/verify-email', [AuthController::class, 'verifyEmail']);
 
-    Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
-        ->middleware('auth:sanctum')
-        ->name('verification.send');
+    Route::post('/resend-email-otp', [AuthController::class, 'resendEmailOtp']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Password Reset
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 });

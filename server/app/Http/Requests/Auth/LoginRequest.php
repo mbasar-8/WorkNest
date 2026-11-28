@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -17,14 +18,13 @@ class LoginRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, array<int, string>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
             'email' => [
                 'required',
-                'string',
                 'email',
                 'max:255',
             ],
@@ -39,20 +39,12 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Custom validation error messages.
-     *
-     * @return array<string, string>
+     * Prepare the data for validation.
      */
-    public function messages(): array
+    protected function prepareForValidation(): void
     {
-        return [
-            'email.required' => 'Email is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.max' => 'Email may not be greater than 255 characters.',
-
-            'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 8 characters.',
-            'password.max' => 'Password may not be greater than 255 characters.',
-        ];
+        $this->merge([
+            'email' => strtolower(trim($this->email)),
+        ]);
     }
 }
