@@ -8,6 +8,7 @@ use App\Services\UserOtpService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\Profile;
 
 class AuthService
 {
@@ -20,20 +21,24 @@ class AuthService
      * Register a new user.
      */
     public function register(array $data): User
-    {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-        ]);
+{
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => $data['password'],
+    ]);
 
-        $this->userOtpService->send(
-            $user,
-            OtpType::EMAIL_VERIFICATION
-        );
+    Profile::create([
+        'user_id' => $user->id,
+    ]);
 
-        return $user;
-    }
+    $this->userOtpService->send(
+        $user,
+        OtpType::EMAIL_VERIFICATION
+    );
+
+    return $user;
+}
 
     /**
      * Authenticate user.
