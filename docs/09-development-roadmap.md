@@ -43,7 +43,20 @@ A fully functional authentication system.
 
 ---
 
-# Phase 3 — Workspace Module
+# Phase 3 — User Profile
+
+Implement:
+
+- View profile
+- Update profile
+
+### Deliverable
+
+User profile management.
+
+---
+
+# Phase 4 — Workspace Module
 
 Implement:
 
@@ -59,7 +72,7 @@ Workspace management.
 
 ---
 
-# Phase 4 — Member Management
+# Phase 5 — Member Management
 
 Implement:
 
@@ -75,7 +88,7 @@ Complete member management.
 
 ---
 
-# Phase 5 — Project Module
+# Phase 6 — Project Module
 
 Implement:
 
@@ -89,7 +102,7 @@ Project management.
 
 ---
 
-# Phase 6 — Board Module
+# Phase 7 — Board Module
 
 Implement:
 
@@ -104,7 +117,7 @@ Board management.
 
 ---
 
-# Phase 7 — List Module
+# Phase 8 — List Module
 
 Implement:
 
@@ -119,7 +132,7 @@ List management.
 
 ---
 
-# Phase 8 — Task Module
+# Phase 9 — Task Module
 
 Implement:
 
@@ -138,7 +151,7 @@ Complete task management.
 
 ---
 
-# Phase 9 — Comments
+# Phase 10 — Comments
 
 Implement:
 
@@ -152,7 +165,7 @@ Task discussions.
 
 ---
 
-# Phase 10 — Activity Logs
+# Phase 11 — Activity Logs
 
 Implement:
 
@@ -165,7 +178,7 @@ Workspace activity tracking.
 
 ---
 
-# Phase 11 — Dashboard
+# Phase 12 — Dashboard
 
 Implement:
 
@@ -181,7 +194,7 @@ Dashboard.
 
 ---
 
-# Phase 12 — Search
+# Phase 13 — Search
 
 Implement search for:
 
@@ -196,7 +209,7 @@ Global search.
 
 ---
 
-# Phase 13 — Testing
+# Phase 14 — Testing
 
 Perform:
 
@@ -212,7 +225,7 @@ Stable Version 1.
 
 ---
 
-# Phase 14 — Production Preparation
+# Phase 15 — Production Preparation
 
 Prepare:
 
@@ -225,7 +238,7 @@ Prepare:
 
 ---
 
-# Phase 15 — Deployment
+# Phase 16 — Deployment
 
 Deploy:
 
@@ -267,52 +280,36 @@ refactor: extract task service
 
 # Version Milestones
 
-## v0.1
-
+v0.1
 - Documentation
-- Development environment
+- Development Environment
 
----
-
-## v0.2
-
+v0.2
 - Authentication
 
----
+v0.3
+- User Profile
+- Workspace
 
-## v0.3
+v0.4
+- Member Management
+- Projects
 
-- Workspace & Members
+v0.5
+- Boards
+- Lists
 
----
+v0.6
+- Tasks
+- Comments
+- Activity Logs
 
-## v0.4
+v0.7
+- Dashboard
+- Search
 
-- Projects & Boards
-
----
-
-## v0.5
-
-- Lists & Tasks
-
----
-
-## v0.6
-
-- Comments & Activity Logs
-
----
-
-## v0.7
-
-- Dashboard & Search
-
----
-
-## v1.0
-
-- Production-ready Version 1
+v1.0
+- Production Preparation
 - Deployment
-- Final testing
-- Portfolio release
+- Final Testing
+- Portfolio Release

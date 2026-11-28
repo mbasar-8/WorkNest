@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines the REST API endpoints for WorkNest Version 1. It serves as the backend API contract between the Laravel server and the React frontend.
+This document defines the REST API endpoints for WorkNest Version 1. It serves as the backend API contract between the Laravel backend and the React frontend.
 
 ---
 
@@ -14,6 +14,20 @@ This document defines the REST API endpoints for WorkNest Version 1. It serves a
 /api
 ```
 
+All endpoints described in this document are relative to the base URL above.
+
+---
+
+## Authentication
+
+Authentication uses Laravel Sanctum with token-based authentication.
+
+Email verification and password reset are implemented using One-Time Password (OTP) delivered via email.
+
+Protected endpoints require a valid authenticated user.
+
+---
+
 ## Response Format
 
 All API responses shall use JSON.
@@ -22,9 +36,9 @@ All API responses shall use JSON.
 
 ```json
 {
-  "success": true,
-  "message": "Operation completed successfully.",
-  "data": {}
+    "success": true,
+    "message": "Operation completed successfully.",
+    "data": {}
 }
 ```
 
@@ -32,9 +46,18 @@ All API responses shall use JSON.
 
 ```json
 {
-  "success": false,
-  "message": "Validation failed.",
-  "errors": {}
+    "success": false,
+    "message": "Validation failed.",
+    "errors": {}
+}
+```
+
+### Unauthorized Response
+
+```json
+{
+    "success": false,
+    "message": "Unauthorized."
 }
 ```
 
@@ -42,158 +65,151 @@ All API responses shall use JSON.
 
 ```json
 {
-  "success": false,
-  "message": "Internal server error."
+    "success": false,
+    "message": "Internal server error."
 }
 ```
 
 ---
 
-# Authentication
-
-Authentication uses Laravel Sanctum.
-
----
-
-## Authentication Endpoints
+# Authentication Endpoints
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| POST | /register | Register a new user |
-| POST | /login | Authenticate user |
-| POST | /logout | Logout current user |
-| GET | /user | Get authenticated user |
-| POST | /forgot-password | Request password reset |
-| POST | /reset-password | Reset password |
-| POST | /email/verify | Verify email |
-| POST | /email/resend | Resend verification email |
+| POST | /auth/register | Register a new user |
+| POST | /auth/email/verify | Verify email using OTP |
+| POST | /auth/email/resend | Resend email verification OTP |
+| POST | /auth/login | Authenticate user |
+| POST | /auth/logout | Logout the authenticated user |
+| GET | /auth/user | Get the authenticated user |
+| POST | /auth/forgot-password | Request a password reset OTP |
+| POST | /auth/reset-password | Reset password using OTP |
 
 ---
 
 # Profile
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /profile |
-| PUT | /profile |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /profile | Retrieve the authenticated user's profile |
+| PUT | /profile | Update the authenticated user's profile |
 
 ---
 
 # Workspaces
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /workspaces |
-| POST | /workspaces |
-| GET | /workspaces/{workspace} |
-| PUT | /workspaces/{workspace} |
-| DELETE | /workspaces/{workspace} |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /workspaces | List all accessible workspaces |
+| POST | /workspaces | Create a workspace |
+| GET | /workspaces/{workspace} | Retrieve a workspace |
+| PUT | /workspaces/{workspace} | Update a workspace |
+| DELETE | /workspaces/{workspace} | Delete a workspace |
 
 ---
 
 # Workspace Members
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /workspaces/{workspace}/members |
-| POST | /workspaces/{workspace}/members/invite |
-| PATCH | /workspaces/{workspace}/members/{member}/role |
-| DELETE | /workspaces/{workspace}/members/{member} |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /workspaces/{workspace}/members | List workspace members |
+| POST | /workspaces/{workspace}/members/invite | Invite a member |
+| PATCH | /workspaces/{workspace}/members/{member}/role | Change member role |
+| DELETE | /workspaces/{workspace}/members/{member} | Remove a member |
 
 ---
 
 # Invitations
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /invitations |
-| POST | /invitations/{token}/accept |
-| DELETE | /invitations/{token}/decline |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /invitations | List pending invitations |
+| POST | /invitations/{token}/accept | Accept an invitation |
+| DELETE | /invitations/{token}/decline | Decline an invitation |
 
 ---
 
 # Projects
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /projects |
-| POST | /projects |
-| GET | /projects/{project} |
-| PUT | /projects/{project} |
-| DELETE | /projects/{project} |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /projects | List projects |
+| POST | /projects | Create a project |
+| GET | /projects/{project} | Retrieve a project |
+| PUT | /projects/{project} | Update a project |
+| DELETE | /projects/{project} | Archive/Delete a project |
 
 ---
 
 # Boards
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /boards |
-| POST | /boards |
-| GET | /boards/{board} |
-| PUT | /boards/{board} |
-| DELETE | /boards/{board} |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /boards | List boards |
+| POST | /boards | Create a board |
+| GET | /boards/{board} | Retrieve a board |
+| PUT | /boards/{board} | Update a board |
+| DELETE | /boards/{board} | Archive/Delete a board |
 
 ---
 
 # Lists
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /lists |
-| POST | /lists |
-| PUT | /lists/{list} |
-| DELETE | /lists/{list} |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /lists | List all lists |
+| POST | /lists | Create a list |
+| PUT | /lists/{list} | Update a list |
+| DELETE | /lists/{list} | Delete a list |
 
----
 
 # Tasks
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /tasks |
-| POST | /tasks |
-| GET | /tasks/{task} |
-| PUT | /tasks/{task} |
-| DELETE | /tasks/{task} |
-| PATCH | /tasks/{task}/assign |
-| PATCH | /tasks/{task}/complete |
-| PATCH | /tasks/{task}/move |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /tasks | List tasks |
+| POST | /tasks | Create a task |
+| GET | /tasks/{task} | Retrieve a task |
+| PUT | /tasks/{task} | Update a task |
+| DELETE | /tasks/{task} | Delete a task |
+| PATCH | /tasks/{task}/assign | Assign a task to a user |
+| PATCH | /tasks/{task}/complete | Mark a task as completed |
+| PATCH | /tasks/{task}/move | Move a task to another list or position |
 
 ---
 
 # Comments
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /tasks/{task}/comments |
-| POST | /tasks/{task}/comments |
-| PUT | /comments/{comment} |
-| DELETE | /comments/{comment} |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /tasks/{task}/comments | List comments for a task |
+| POST | /tasks/{task}/comments | Create a comment |
+| PUT | /comments/{comment} | Update a comment |
+| DELETE | /comments/{comment} | Delete a comment |
 
 ---
 
 # Activity Logs
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /activity-logs |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /activity-logs | Retrieve workspace activity logs |
 
 ---
 
 # Dashboard
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /dashboard |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /dashboard | Retrieve dashboard summary |
 
 ---
 
 # Search
 
-| Method | Endpoint |
-|---------|----------|
-| GET | /search |
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /search | Perform a global search |
 
 Supported query parameters:
 
@@ -221,14 +237,55 @@ Supported query parameters:
 
 ---
 
+# Authorization
+
+Unless otherwise specified:
+
+- Public endpoints are accessible without authentication.
+- Protected endpoints require a valid Sanctum authentication token.
+- Email verification is required before accessing protected application features.
+- Authorization is enforced through Laravel Policies and middleware.
+- Workspace resources are accessible only to authorized workspace members based on their assigned role.
+
+---
+
+# API Design Principles
+
+The WorkNest API follows these principles:
+
+- RESTful endpoint design
+- Resource-oriented architecture
+- Consistent JSON response structure
+- Stateless communication
+- Token-based authentication with Laravel Sanctum
+- Request validation using Form Requests
+- Authorization using Policies
+- Proper HTTP status codes
+- Consistent error handling
+
+---
+
 # Versioning
 
-Version 1 APIs will be maintained under the current API structure.
+Version 1 APIs are available under the current API structure:
 
-Future releases may introduce endpoint versioning such as:
+```text
+/api
+```
+
+Future releases may introduce explicit endpoint versioning such as:
 
 ```text
 /api/v2
 ```
 
-to preserve backward compatibility.
+to preserve backward compatibility while allowing new functionality to evolve independently.
+
+---
+
+# Notes
+
+- All timestamps use UTC and ISO 8601 format.
+- All request and response bodies use JSON.
+- API documentation reflects the functionality planned for **WorkNest Version 1**.
+- Future versions may introduce additional endpoints for notifications, file attachments, calendar, AI features, billing, and public APIs without breaking the Version 1 contract.
